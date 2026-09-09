@@ -8,7 +8,6 @@ print("🔍 JSON taranıyor...\n")
 with open(DOSYA, "r", encoding="utf-8") as f:
     satirlar = f.readlines()
 
-# Önce normal JSON parser'ı dene
 try:
     json.loads("".join(satirlar))
     print("🟢 JSON tamamen geçerli!")
@@ -21,7 +20,7 @@ except json.JSONDecodeError as e:
     print(f"   Hata  : {e.msg}\n")
 
 
-print("🔎 Şüpheli satırlar aranıyor...\n")
+print("Şüpheli satırlar aranıyor...\n")
 
 supheli = []
 
@@ -31,7 +30,6 @@ for numara, satir in enumerate(satirlar, 1):
     if not temiz:
         continue
 
-    # JSON key/value satırlarında tırnak sayısını kontrol et
     if ":" in temiz:
         tirnak = 0
         kacisli = False
@@ -46,13 +44,11 @@ for numara, satir in enumerate(satirlar, 1):
 
             kacisli = False
 
-        # Normal bir "key": "value" satırında genellikle çift sayıda tırnak olur
         if tirnak % 2 != 0:
             supheli.append(
                 (numara, "Tek sayıda tırnak", temiz)
             )
 
-        # Değer içerisinde kaçışlanmamış tırnak ihtimali
         eslesme = re.search(r':\s*"(.+)"\s*,?\s*$', temiz)
 
         if not eslesme:
@@ -60,7 +56,7 @@ for numara, satir in enumerate(satirlar, 1):
                 (numara, "Şüpheli değer yapısı", temiz)
             )
 
-    # JSON'un içinde üç nokta bırakılmışsa
+ 
     if "..." in temiz:
         supheli.append(
             (numara, "Literal ... bulundu", temiz)
