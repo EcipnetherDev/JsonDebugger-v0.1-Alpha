@@ -1,7 +1,7 @@
 import json
 import re
 
-DOSYA = "/root/AI/data/knowledge.json"
+DOSYA = "/senin/uzantın/burada.json"
 
 print("🔍 JSON taranıyor...\n")
 
